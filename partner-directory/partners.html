@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OpenText Partner Directory</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f6f8;
+      color: #333;
+    }
+    h1 {
+      color: #005a9c;
+      margin-bottom: 10px;
+    }
+    .filter {
+      margin-bottom: 20px;
+    }
+    .partner-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-left: 4px solid #005a9c;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .partner-name {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .solutions {
+      margin-top: 10px;
+    }
+    .solution {
+      background-color: #e6f0fa;
+      padding: 5px 10px;
+      margin: 3px 0;
+      border-radius: 4px;
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Partner Directory</h1>
+
+  <div class="filter">
+    <label>
+      <input type="checkbox" id="solutionFilter" />
+      Show only partners with listed solutions
+    </label>
+  </div>
+
+  <div id="directory"></div>
+
+  <script>
+    const partners = [
+      { name: "Accenture", solutions: ["Cloud Migration Toolkit", "Digital Document Suite"] },
+      { name: "Deloitte", solutions: ["Compliance Automation"] },
+      { name: "Infosys", solutions: [] },
+      { name: "PwC", solutions: ["Risk Management Platform"] }
+    ];
+
+    const container = document.getElementById("directory");
+    const filterCheckbox = document.getElementById("solutionFilter");
+
+    function renderDirectory() {
+      container.innerHTML = "";
+      const filtered = filterCheckbox.checked
+        ? partners.filter(p => p.solutions.length > 0)
+        : partners;
+
+      filtered.forEach(partner => {
+        const card = document.createElement("div");
+        card.className = "partner-card";
+
+        const name = document.createElement("div");
+        name.className = "partner-name";
+        name.textContent = partner.name;
+        card.appendChild(name);
+
+        if (partner.solutions.length > 0) {
+          const solContainer = document.createElement("div");
+          solContainer.className = "solutions";
+          partner.solutions.forEach(sol => {
+            const solItem = document.createElement("div");
+            solItem.className = "solution";
+            solItem.textContent = sol;
+            solContainer.appendChild(solItem);
+          });
+          card.appendChild(solContainer);
+        }
+
+        container.appendChild(card);
+      });
+    }
+
+    filterCheckbox.addEventListener("change", renderDirectory);
+    renderDirectory();
+  </script>
+
+</body>
+</html>
